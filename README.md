@@ -1,107 +1,114 @@
-# How to run?
+# MediBot - AI-Powered Medical Chatbot
 
-### STEPS:
-Clone the repository
+MediBot is a conversational AI chatbot built using Flask and LangChain with Google's Gemini (Generative AI) model and Pinecone for document retrieval. The bot is capable of answering medical-related queries using vector-based RAG (Retrieval-Augmented Generation).
+
+---
+
+## 🚀 How to Run Locally
+
+### 🧱 Step 1: Clone the Repository
 
 ```bash
-Project repo: https://github.com/
+git clone https://github.com/your-username/medibot.git
+cd medibot
 ```
 
-### STEP 01 - Create a conda environment after opening the repository
+### 💻 Step 2: Create a Conda Environment
 
 ```bash
 conda create -n medibot python=3.10 -y
-```
-
-```bash
 conda activate medibot
 ```
 
-### STEP 02- install the requirements
+### 📦 Step 3: Install the Requirements
 
 ```bash
 pip install -r requirements.txt
 ```
-### Environment Setup and Local Deployment Instructions
 
-#### 1. Create a `.env` file in the root directory and add your credentials:
+### 🔐 Step 4: Environment Setup
+
+Create a `.env` file in the root directory:
 
 ```env
-PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-GOOGLE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+PINECONE_API_KEY = "your_pinecone_api_key"
+GOOGLE_API_KEY = "your_google_api_key"
 ```
 
-#### 2. Store embeddings to Pinecone:
+### 📚 Step 5: Store Embeddings in Pinecone
 
 ```bash
 python store_index.py
 ```
 
-#### 3. Run the Flask app:
+### 🧠 Step 6: Run the Flask App
 
 ```bash
 python app.py
 ```
 
-#### 4. Open up `http://localhost:8080` in your browser.
+### 🌐 Step 7: Open the Application
+
+Open your browser and go to:
+
+```
+http://localhost:8080
+```
 
 ---
 
-### Tech Stack Used
+## 🧰 Tech Stack
 
 * **Python**
-* **LangChain**
 * **Flask**
+* **LangChain**
 * **Gemini API (Google Generative AI)**
 * **Pinecone**
-* **AWS CICD Deployment with GitHub Actions**
+* **Bootstrap 4 (Frontend)**
 
 ---
 
-### AWS Deployment Guide
+## 🌍 Deploy on Render (Recommended)
 
-#### Step 1: Login to AWS Console
+**Why Render?**
 
-#### Step 2: Create an IAM User with the following access:
+* ✅ Free tier
+* 🔐 HTTPS included
+* 🐳 No Docker required
 
-* **AmazonEC2FullAccess**
-* **AmazonEC2ContainerRegistryFullAccess**
+### 🔧 Setup Instructions
 
-#### Step 3: Create ECR Repository
+1. Create a free account at [render.com](https://render.com)
+2. Connect your GitHub repo
+3. Add this `.render.yaml` to your project root:
 
-* Example URI: `315865595366.dkr.ecr.us-east-1.amazonaws.com/medibot`
-
-#### Step 4: Build and Push Docker Image
-
-```bash
-docker build -t medibot .
-docker tag medibot:latest 315865595366.dkr.ecr.us-east-1.amazonaws.com/medibot
-docker push 315865595366.dkr.ecr.us-east-1.amazonaws.com/medibot
+```yaml
+services:
+  - type: web
+    name: medi-bot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: PINECONE_API_KEY
+        value: your_pinecone_api_key
+      - key: GOOGLE_API_KEY
+        value: your_google_api_key
 ```
 
-#### Step 5: Launch EC2 (Ubuntu)
+4. Deploy 🚀
 
-#### Step 6: SSH into EC2 and Install Docker
+---
 
-```bash
-sudo apt-get update -y
-sudo apt-get upgrade
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo usermod -aG docker ubuntu
-newgrp docker
-```
+## ✨ Final Notes
 
-#### Step 7: Configure EC2 as GitHub Self-Hosted Runner
+* This project uses **Gemini Pro / Flash** model from Google Generative AI.
+* Built with modular structure using `LangChain`, `Flask`, and `Pinecone`.
+* Frontend styled with Bootstrap for chat UI.
+* For easiest deployment, use **Render**.
 
-* Go to GitHub repo > Settings > Actions > Runners > New self-hosted runner
-* Select OS (Ubuntu) and run the setup commands provided
+---
 
-#### Step 8: Set GitHub Repository Secrets:
+### 🔗 Project Link
 
-* `AWS_ACCESS_KEY_ID`
-* `AWS_SECRET_ACCESS_KEY`
-* `AWS_DEFAULT_REGION`
-* `ECR_REPO`
-* `PINECONE_API_KEY`
-* `GOOGLE_API_KEY`
+📂 GitHub: [https://github.com/Lavanya294/Medical-Chatbot](https://github.com/Lavanya294/Medical-Chatbot)
